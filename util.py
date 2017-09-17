@@ -1,4 +1,4 @@
-import cv2 
+import cv2
 import numpy as np
 import svm_train as st
 
@@ -13,7 +13,7 @@ def getMaxContour(contours,minArea=200):
             maxC=cnt
     return maxC
 
-    
+
 #Get Gesture Image by prediction
 def getGestureImg(cnt,img,th1,model):
     x,y,w,h = cv2.boundingRect(cnt)
@@ -23,5 +23,7 @@ def getGestureImg(cnt,img,th1,model):
     imgT=cv2.resize(imgT,(200,200))
     imgTG=cv2.cvtColor(imgT,cv2.COLOR_BGR2GRAY)
     resp=st.predict(model,imgTG)
-    img=cv2.imread('TrainData/'+unichr(int(resp[0])+64)+'_2.jpg')
-    return img,unichr(int(resp[0])+64)
+    img = cv2.imread('TrainData/' + chr(int(resp[1])+64)+'_2.jpg')
+    if not img.any():
+        print("No image retrieved from training data")
+    return img, chr(int(resp[1])+64)
